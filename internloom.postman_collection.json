@@ -1522,6 +1522,53 @@
           ]
         }
       ]
+    },
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "GET Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Health Status Up",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"status\": \"UP\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        }
+      ]
     }
   ],
   "variable": [
