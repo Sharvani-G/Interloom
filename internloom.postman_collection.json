@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "internloom-talent-matching-backend",
-    "name": "InternLoom Backend API Suite",
-    "description": "Comprehensive request collection for validation and grading of the InternLoom Campus Hiring Backend.",
+    "name": "InternLoom Complete Backend API Suite",
+    "description": "Comprehensive and complete request collection for all 24 registered API endpoints in the InternLoom Campus Hiring Backend.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -31,6 +31,27 @@
           }
         },
         {
+          "name": "Register Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruitment@company.com\",\n  \"password\": \"Password123!\",\n  \"companyName\": \"New Innovate Corp\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register/company",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register", "company"]
+            }
+          }
+        },
+        {
           "name": "Verify Student OTP",
           "request": {
             "method": "POST",
@@ -52,7 +73,28 @@
           }
         },
         {
-          "name": "Login",
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"purpose\": \"REGISTER\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/resend-otp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "resend-otp"]
+            }
+          }
+        },
+        {
+          "name": "Login (Student)",
           "request": {
             "method": "POST",
             "header": [
@@ -71,6 +113,69 @@
               "path": ["auth", "login"]
             }
           }
+        },
+        {
+          "name": "Login (Company)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruitment@seededtech.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          }
         }
       ]
     },
@@ -78,7 +183,7 @@
       "name": "Students",
       "item": [
         {
-          "name": "Get My Profile",
+          "name": "Get Student Profile",
           "request": {
             "method": "GET",
             "header": [
@@ -95,7 +200,7 @@
           }
         },
         {
-          "name": "Update Profile",
+          "name": "Update Student Profile",
           "request": {
             "method": "PUT",
             "header": [
@@ -110,8 +215,42 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"college\": \"New State Tech\",\n  \"skills\": [\"React\", \"Node.js\", \"Docker\", \"SQL\"]\n}"
+              "raw": "{\n  \"college\": \"State Tech University\",\n  \"skills\": [\"React\", \"Node.js\", \"SQL\", \"Docker\"]\n}"
             },
+            "url": {
+              "raw": "{{base_url}}/students/me",
+              "host": ["{{base_url}}"],
+              "path": ["students", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get Student Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/students/me/applications?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["students", "me", "applications"]
+            }
+          }
+        },
+        {
+          "name": "Delete Student Profile",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
             "url": {
               "raw": "{{base_url}}/students/me",
               "host": ["{{base_url}}"],
@@ -122,10 +261,74 @@
       ]
     },
     {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "Get Company Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/companies/me",
+              "host": ["{{base_url}}"],
+              "path": ["companies", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Company Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Seeded Technology Corporation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/companies/me",
+              "host": ["{{base_url}}"],
+              "path": ["companies", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get Company Listings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/companies/me/listings?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["companies", "me", "listings"]
+            }
+          }
+        }
+      ]
+    },
+    {
       "name": "Listings",
       "item": [
         {
-          "name": "Create Listing (Company)",
+          "name": "Create Listing (Draft)",
           "request": {
             "method": "POST",
             "header": [
@@ -140,7 +343,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Cloud Architecture Intern\",\n  \"description\": \"Deploy infrastructure and configure CI/CD systems using AWS and Docker.\",\n  \"stipend\": 1800,\n  \"location\": \"REMOTE\",\n  \"applicationDeadline\": \"2026-08-30T12:00:00.000Z\",\n  \"maxApplicants\": 15,\n  \"skills\": [\n    { \"name\": \"AWS\", \"isRequired\": true },\n    { \"name\": \"Docker\", \"isRequired\": true },\n    { \"name\": \"Kubernetes\", \"isRequired\": false }\n  ]\n}"
+              "raw": "{\n  \"title\": \"Backend Engineer Intern\",\n  \"description\": \"Work with Prisma and Node.js on scaling systems.\",\n  \"stipend\": 1500,\n  \"location\": \"HYBRID\",\n  \"applicationDeadline\": \"2026-08-15T12:00:00.000Z\",\n  \"maxApplicants\": 10,\n  \"skills\": [\n    { \"name\": \"Node.js\", \"isRequired\": true },\n    { \"name\": \"SQL\", \"isRequired\": true },\n    { \"name\": \"Docker\", \"isRequired\": false }\n  ]\n}"
             },
             "url": {
               "raw": "{{base_url}}/listings",
@@ -150,7 +353,69 @@
           }
         },
         {
-          "name": "Get Matching Listings (Student)",
+          "name": "Update Listing",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Backend Engineer Intern (Node.js/Prisma)\",\n  \"stipend\": 1800\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/:id",
+              "host": ["{{base_url}}"],
+              "path": ["listings", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Listing Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["listings", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Search / Matching Listings (Student)",
           "request": {
             "method": "GET",
             "header": [
@@ -160,9 +425,32 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/listings?sortBy=match&location=REMOTE",
+              "raw": "{{base_url}}/listings?sortBy=match&location=HYBRID&minStipend=1000",
               "host": ["{{base_url}}"],
               "path": ["listings"]
+            }
+          }
+        },
+        {
+          "name": "Get Listing By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/listings/:id",
+              "host": ["{{base_url}}"],
+              "path": ["listings", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
             }
           }
         }
@@ -172,7 +460,7 @@
       "name": "Applications",
       "item": [
         {
-          "name": "Apply to Internship (Student)",
+          "name": "Apply to Listing (Student)",
           "request": {
             "method": "POST",
             "header": [
@@ -182,12 +470,12 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/listings/:listing_id/apply",
+              "raw": "{{base_url}}/listings/:id/apply",
               "host": ["{{base_url}}"],
-              "path": ["listings", ":listing_id", "apply"],
+              "path": ["listings", ":id", "apply"],
               "variable": [
                 {
-                  "key": "listing_id",
+                  "key": "id",
                   "value": ""
                 }
               ]
@@ -205,15 +493,156 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/listings/:listing_id/applicants",
+              "raw": "{{base_url}}/listings/:id/applicants?page=1&limit=20",
               "host": ["{{base_url}}"],
-              "path": ["listings", ":listing_id", "applicants"],
+              "path": ["listings", ":id", "applicants"],
               "variable": [
                 {
-                  "key": "listing_id",
+                  "key": "id",
                   "value": ""
                 }
               ]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"UNDER_REVIEW\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/applications/:id/status",
+              "host": ["{{base_url}}"],
+              "path": ["applications", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Withdraw Application (Student)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/applications/:id/withdraw",
+              "host": ["{{base_url}}"],
+              "path": ["applications", ":id", "withdraw"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Bulk Update Status (Company)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applicationIds\": [\"app-uuid-1\", \"app-uuid-2\"],\n  \"status\": \"SHORTLISTED\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/applications/bulk-update",
+              "host": ["{{base_url}}"],
+              "path": ["applications", "bulk-update"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notifications?isRead=false&page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notifications/:id/read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", ":id", "read"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notifications/bulk-read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "bulk-read"]
             }
           }
         }
@@ -256,6 +685,11 @@
     },
     {
       "key": "company_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
       "value": "",
       "type": "string"
     }
