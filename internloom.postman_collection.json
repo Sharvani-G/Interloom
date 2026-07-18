@@ -1,0 +1,263 @@
+{
+  "info": {
+    "_postman_id": "internloom-talent-matching-backend",
+    "name": "InternLoom Backend API Suite",
+    "description": "Comprehensive request collection for validation and grading of the InternLoom Campus Hiring Backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"password\": \"Password123!\",\n  \"name\": \"Bob Miller\",\n  \"college\": \"Tech Institute\",\n  \"branch\": \"Computer Science\",\n  \"graduationYear\": 2027,\n  \"cgpa\": 9.1,\n  \"githubUrl\": \"https://github.com/bob\",\n  \"linkedinUrl\": \"https://linkedin.com/in/bob\",\n  \"bio\": \"Passionate developer.\",\n  \"resumeUrl\": \"https://example.com/resumes/bob.pdf\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register/student",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register", "student"]
+            }
+          }
+        },
+        {
+          "name": "Verify Student OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"otp\": \"123456\",\n  \"purpose\": \"REGISTER\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "verify-otp"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/students/me",
+              "host": ["{{base_url}}"],
+              "path": ["students", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"college\": \"New State Tech\",\n  \"skills\": [\"React\", \"Node.js\", \"Docker\", \"SQL\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/students/me",
+              "host": ["{{base_url}}"],
+              "path": ["students", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listings",
+      "item": [
+        {
+          "name": "Create Listing (Company)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cloud Architecture Intern\",\n  \"description\": \"Deploy infrastructure and configure CI/CD systems using AWS and Docker.\",\n  \"stipend\": 1800,\n  \"location\": \"REMOTE\",\n  \"applicationDeadline\": \"2026-08-30T12:00:00.000Z\",\n  \"maxApplicants\": 15,\n  \"skills\": [\n    { \"name\": \"AWS\", \"isRequired\": true },\n    { \"name\": \"Docker\", \"isRequired\": true },\n    { \"name\": \"Kubernetes\", \"isRequired\": false }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/listings",
+              "host": ["{{base_url}}"],
+              "path": ["listings"]
+            }
+          }
+        },
+        {
+          "name": "Get Matching Listings (Student)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/listings?sortBy=match&location=REMOTE",
+              "host": ["{{base_url}}"],
+              "path": ["listings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "item": [
+        {
+          "name": "Apply to Internship (Student)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/listings/:listing_id/apply",
+              "host": ["{{base_url}}"],
+              "path": ["listings", ":listing_id", "apply"],
+              "variable": [
+                {
+                  "key": "listing_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Applicants (Company)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{company_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/listings/:listing_id/applicants",
+              "host": ["{{base_url}}"],
+              "path": ["listings", ":listing_id", "applicants"],
+              "variable": [
+                {
+                  "key": "listing_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auditing",
+      "item": [
+        {
+          "name": "Get Audit Trail (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer admin-super-secret-token"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/audit?page=1&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["audit"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "company_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

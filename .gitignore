@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.production
+.env.local
+.env.development
+.env.staging
+*.log
+dist/
+build/
+.prisma/

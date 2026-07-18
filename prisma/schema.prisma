@@ -1,0 +1,208 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  STUDENT
+  COMPANY
+}
+
+enum LocationType {
+  REMOTE
+  HYBRID
+  ONSITE
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  AUTO_CLOSED
+  CLOSED
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  SHORTLISTED
+  REJECTED
+  OFFER_EXTENDED
+}
+
+enum OtpPurpose {
+  REGISTER
+  EMAIL_CHANGE
+}
+
+model User {
+  id            String            @id @default(uuid())
+  email         String            @unique
+  passwordHash  String            @map("password_hash")
+  role          Role
+  createdAt     DateTime          @default(now()) @map("created_at")
+  updatedAt     DateTime          @updatedAt @map("updated_at")
+
+  studentProfile StudentProfile?
+  companyProfile Company?
+  refreshTokens  RefreshToken[]
+  otpVerifications OtpVerification[]
+  notifications  Notification[]
+
+  @@map("users")
+}
+
+model StudentProfile {
+  userId          String         @id @map("user_id")
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  college         String
+  branch          String
+  graduationYear  Int            @map("graduation_year")
+  cgpa            Float
+  githubUrl       String?        @map("github_url")
+  linkedinUrl     String?        @map("linkedin_url")
+  bio             String?
+  resumeUrl       String?        @map("resume_url")
+  isEmailVerified Boolean        @default(false) @map("is_email_verified")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  skills          StudentSkill[]
+  applications    Application[]
+
+  @@map("student_profiles")
+}
+
+model Company {
+  userId      String   @id @map("user_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String   @map("company_name")
+  isApproved  Boolean  @default(false) @map("is_approved")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  listings    Listing[]
+
+  @@map("companies")
+}
+
+model Skill {
+  id             String         @id @default(uuid())
+  name           String         @unique
+  studentSkills  StudentSkill[]
+  listingSkills  ListingSkill[]
+
+  @@map("skills")
+}
+
+model StudentSkill {
+  studentId String         @map("student_id")
+  student   StudentProfile @relation(fields: [studentId], references: [userId], onDelete: Cascade)
+  skillId   String         @map("skill_id")
+  skill     Skill          @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([studentId, skillId])
+  @@index([skillId])
+  @@map("student_skills")
+}
+
+model Listing {
+  id                  String         @id @default(uuid())
+  companyId           String         @map("company_id")
+  company             Company        @relation(fields: [companyId], references: [userId], onDelete: Cascade)
+  title               String
+  description         String
+  stipend             Int
+  location            LocationType
+  applicationDeadline DateTime       @map("application_deadline")
+  maxApplicants       Int            @map("max_applicants")
+  applicantCount      Int            @default(0) @map("applicant_count")
+  status              ListingStatus  @default(DRAFT)
+  createdAt           DateTime       @default(now()) @map("created_at")
+  updatedAt           DateTime       @updatedAt @map("updated_at")
+
+  skills              ListingSkill[]
+  applications        Application[]
+
+  @@index([status, applicationDeadline])
+  @@map("listings")
+}
+
+model ListingSkill {
+  listingId  String   @map("listing_id")
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  skillId    String   @map("skill_id")
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  isRequired Boolean  @default(true) @map("is_required")
+
+  @@id([listingId, skillId])
+  @@map("listing_skills")
+}
+
+model Application {
+  id        String            @id @default(uuid())
+  studentId String            @map("student_id")
+  student   StudentProfile    @relation(fields: [studentId], references: [userId], onDelete: Cascade)
+  listingId String            @map("listing_id")
+  listing   Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  status    ApplicationStatus @default(SUBMITTED)
+  appliedAt DateTime          @default(now()) @map("applied_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  @@unique([studentId, listingId])
+  @@index([listingId])
+  @@map("applications")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String   @map("token_hash")
+  expiresAt  DateTime @map("expires_at")
+  revoked    Boolean  @default(false)
+
+  @@map("refresh_tokens")
+}
+
+model OtpVerification {
+  id        String     @id @default(uuid())
+  userId    String     @map("user_id")
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  otpHash   String     @map("otp_hash")
+  purpose   OtpPurpose
+  expiresAt DateTime   @map("expires_at")
+  consumed  Boolean    @default(false)
+
+  @@map("otp_verifications")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  message   String
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  actorId      String   @map("actor_id")
+  actorType    String   @map("actor_type")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String   @map("resource_id")
+  beforeState  Json?    @map("before_state")
+  afterState   Json?    @map("after_state")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
