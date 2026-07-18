@@ -2,6 +2,7 @@ const prisma = require("../utils/db");
 const { NotFoundError, ForbiddenError, BadRequestError } = require("../utils/errors");
 const { calculateMatchScore } = require("../utils/matching");
 const auditService = require("./audit.service");
+const notificationService = require("./notification.service");
 
 async function createListing(companyId, data) {
   const company = await prisma.company.findUnique({
@@ -227,6 +228,40 @@ async function updateListingStatus(companyId, listingId, newStatus) {
     beforeState: { status: currentStatus },
     afterState: { status: targetStatus }
   });
+
+  // Trigger notifications for highly matching students
+  if (targetStatus === "ACTIVE") {
+    try {
+      const students = await prisma.studentProfile.findMany({
+        where: { isEmailVerified: true },
+        include: {
+          skills: {
+            include: {
+              skill: true
+            }
+          }
+        }
+      });
+
+      for (const s of students) {
+        const studentSkills = s.skills.map((ss) => ss.skill.name);
+        const studentForMatching = {
+          ...s,
+          skills: studentSkills
+        };
+        const score = calculateMatchScore(studentForMatching, updated);
+        if (score >= 70) {
+          await notificationService.createNotification(
+            s.userId,
+            "HIGH_MATCH_LISTING",
+            `New listing matches your profile with a score of ${score}%: ${updated.title}`
+          );
+        }
+      }
+    } catch (err) {
+      console.error("Failed to generate match notifications for listing:", err);
+    }
+  }
 
   return formatListing(updated);
 }
