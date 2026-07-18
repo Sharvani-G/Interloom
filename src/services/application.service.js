@@ -108,6 +108,14 @@ async function apply(studentId, listingId) {
     `A student has applied to your listing: ${application.listing.title}`
   );
 
+  if (updatedListings[0].status === "AUTO_CLOSED") {
+    await notificationService.createNotification(
+      application.listing.companyId,
+      "LISTING_AUTO_CLOSED",
+      `Your listing "${application.listing.title}" has been automatically closed because the applicant cap was reached.`
+    );
+  }
+
   await auditService.logEvent({
     actorId: studentId,
     actorType: "STUDENT",
