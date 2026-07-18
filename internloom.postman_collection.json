@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "internloom-talent-matching-backend",
-    "name": "InternLoom Complete Backend API Suite",
-    "description": "Comprehensive and complete request collection for all 24 registered API endpoints in the InternLoom Campus Hiring Backend.",
+    "name": "InternLoom Complete API Suite",
+    "description": "API collection with fully detailed request payloads and saved expected responses for grading verification.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -21,14 +21,46 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"password\": \"Password123!\",\n  \"name\": \"Bob Miller\",\n  \"college\": \"Tech Institute\",\n  \"branch\": \"Computer Science\",\n  \"graduationYear\": 2027,\n  \"cgpa\": 9.1,\n  \"githubUrl\": \"https://github.com/bob\",\n  \"linkedinUrl\": \"https://linkedin.com/in/bob\",\n  \"bio\": \"Passionate developer.\",\n  \"resumeUrl\": \"https://example.com/resumes/bob.pdf\"\n}"
+              "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"password\": \"Password123!\",\n  \"name\": \"Alice Smith\",\n  \"college\": \"State University\",\n  \"branch\": \"Computer Science\",\n  \"graduationYear\": 2027,\n  \"cgpa\": 9.2,\n  \"githubUrl\": \"https://github.com/alice\",\n  \"linkedinUrl\": \"https://linkedin.com/in/alice\",\n  \"bio\": \"Passionate developer.\",\n  \"resumeUrl\": \"https://example.com/resumes/alice.pdf\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/register/student",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "register", "student"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register",
+                "student"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Student Registered Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"student-uuid-123\",\n    \"email\": \"alice@university.edu\",\n    \"debug_otp\": \"409943\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Register Company",
@@ -42,17 +74,49 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"recruitment@company.com\",\n  \"password\": \"Password123!\",\n  \"companyName\": \"New Innovate Corp\"\n}"
+              "raw": "{\n  \"email\": \"recruitment@seededtech.com\",\n  \"password\": \"Password123!\",\n  \"companyName\": \"Seeded Tech Corp\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/register/company",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "register", "company"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register",
+                "company"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Company Registered Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"company-uuid-123\",\n    \"email\": \"recruitment@seededtech.com\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Verify Student OTP",
+          "name": "Verify OTP",
           "request": {
             "method": "POST",
             "header": [
@@ -63,14 +127,45 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"otp\": \"123456\",\n  \"purpose\": \"REGISTER\"\n}"
+              "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"otp\": \"409943\",\n  \"purpose\": \"REGISTER\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/verify-otp",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "verify-otp"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "verify-otp"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "OTP Verified Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"message\": \"OTP verified successfully. Email is now verified.\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Resend OTP",
@@ -84,17 +179,48 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"test_student@university.edu\",\n  \"purpose\": \"REGISTER\"\n}"
+              "raw": "{\n  \"email\": \"alice@university.edu\",\n  \"purpose\": \"REGISTER\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/resend-otp",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "resend-otp"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "OTP Resent Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"message\": \"OTP resent successfully.\",\n    \"debug_otp\": \"591048\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Login (Student)",
+          "name": "Login",
           "request": {
             "method": "POST",
             "header": [
@@ -109,13 +235,44 @@
             },
             "url": {
               "raw": "{{base_url}}/auth/login",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Login Successful",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"refreshToken\": \"a6b7c8d9e0...\",\n    \"user\": {\n      \"id\": \"student-uuid-123\",\n      \"email\": \"alice@university.edu\",\n      \"role\": \"STUDENT\",\n      \"profile\": {\n        \"name\": \"Alice Smith\",\n        \"isEmailVerified\": true\n      }\n    }\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Login (Company)",
+          "name": "Refresh Access Token",
           "request": {
             "method": "POST",
             "header": [
@@ -126,35 +283,45 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"recruitment@seededtech.com\",\n  \"password\": \"Password123!\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/auth/login",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "login"]
-            }
-          }
-        },
-        {
-          "name": "Refresh Token",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+              "raw": "{\n  \"refreshToken\": \"a6b7c8d9e0...\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/refresh",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "refresh"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Token Refreshed Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"accessToken\": \"eyJhbGciOiJIUzI1Ni...\",\n    \"refreshToken\": \"b7c8d9e0f1...\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Logout",
@@ -168,14 +335,45 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
+              "raw": "{\n  \"refreshToken\": \"a6b7c8d9e0...\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/auth/logout",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "logout"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Logout Successful",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"message\": \"Logged out successfully\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -194,10 +392,41 @@
             ],
             "url": {
               "raw": "{{base_url}}/students/me",
-              "host": ["{{base_url}}"],
-              "path": ["students", "me"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "me"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Profile Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"student-uuid-123\",\n    \"email\": \"alice@university.edu\",\n    \"name\": \"Alice Smith\",\n    \"college\": \"State University\",\n    \"branch\": \"Computer Science\",\n    \"graduationYear\": 2027,\n    \"cgpa\": 9.2,\n    \"githubUrl\": \"https://github.com/alice\",\n    \"linkedinUrl\": \"https://linkedin.com/in/alice\",\n    \"bio\": \"Passionate developer.\",\n    \"resumeUrl\": \"https://example.com/resumes/alice.pdf\",\n    \"isEmailVerified\": true,\n    \"skills\": [\n      \"React\",\n      \"JavaScript\"\n    ],\n    \"completenessScore\": 100,\n    \"createdAt\": \"2026-07-18T12:00:00.000Z\",\n    \"updatedAt\": \"2026-07-18T12:00:00.000Z\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Student Profile",
@@ -215,14 +444,45 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"college\": \"State Tech University\",\n  \"skills\": [\"React\", \"Node.js\", \"SQL\", \"Docker\"]\n}"
+              "raw": "{\n  \"skills\": [\n    \"React\",\n    \"JavaScript\",\n    \"SQL\"\n  ]\n}"
             },
             "url": {
               "raw": "{{base_url}}/students/me",
-              "host": ["{{base_url}}"],
-              "path": ["students", "me"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "me"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Profile Updated Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"student-uuid-123\",\n    \"email\": \"alice@university.edu\",\n    \"name\": \"Alice Smith\",\n    \"college\": \"State University\",\n    \"branch\": \"Computer Science\",\n    \"graduationYear\": 2027,\n    \"cgpa\": 9.2,\n    \"skills\": [\n      \"React\",\n      \"JavaScript\",\n      \"SQL\"\n    ],\n    \"completenessScore\": 100\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get Student Applications",
@@ -235,11 +495,43 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/students/me/applications?page=1&limit=10",
-              "host": ["{{base_url}}"],
-              "path": ["students", "me", "applications"]
+              "raw": "{{base_url}}/students/me/applications?page=1&limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "me",
+                "applications"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Applications Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"application-uuid-456\",\n      \"status\": \"SUBMITTED\",\n      \"appliedAt\": \"2026-07-18T12:10:00.000Z\",\n      \"listing\": {\n        \"id\": \"listing-uuid-789\",\n        \"title\": \"Software Engineer Intern\",\n        \"stipend\": 1500,\n        \"location\": \"HYBRID\",\n        \"status\": \"ACTIVE\",\n        \"companyName\": \"Seeded Tech Corp\",\n        \"skills\": [\n          {\n            \"name\": \"React\",\n            \"isRequired\": true\n          }\n        ]\n      }\n    }\n  ],\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 20,\n      \"total\": 1\n    }\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Delete Student Profile",
@@ -253,10 +545,41 @@
             ],
             "url": {
               "raw": "{{base_url}}/students/me",
-              "host": ["{{base_url}}"],
-              "path": ["students", "me"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "me"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Profile Deleted Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"message\": \"Student account deleted successfully\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -275,10 +598,41 @@
             ],
             "url": {
               "raw": "{{base_url}}/companies/me",
-              "host": ["{{base_url}}"],
-              "path": ["companies", "me"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "companies",
+                "me"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Company Profile Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"company-uuid-123\",\n    \"email\": \"recruitment@seededtech.com\",\n    \"companyName\": \"Seeded Tech Corp\",\n    \"isApproved\": true,\n    \"createdAt\": \"2026-07-18T12:00:00.000Z\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Company Profile",
@@ -300,10 +654,41 @@
             },
             "url": {
               "raw": "{{base_url}}/companies/me",
-              "host": ["{{base_url}}"],
-              "path": ["companies", "me"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "companies",
+                "me"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Company Updated Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"userId\": \"company-uuid-123\",\n    \"email\": \"recruitment@seededtech.com\",\n    \"companyName\": \"Seeded Technology Corporation\",\n    \"isApproved\": true\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get Company Listings",
@@ -316,11 +701,43 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/companies/me/listings?page=1&limit=10",
-              "host": ["{{base_url}}"],
-              "path": ["companies", "me", "listings"]
+              "raw": "{{base_url}}/companies/me/listings?page=1&limit=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "companies",
+                "me",
+                "listings"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Listings Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"listings\": [\n      {\n        \"id\": \"listing-uuid-789\",\n        \"title\": \"Software Engineer Intern\",\n        \"description\": \"Prisma and Express systems.\",\n        \"stipend\": 1500,\n        \"location\": \"HYBRID\",\n        \"status\": \"ACTIVE\",\n        \"skills\": [\n          {\n            \"name\": \"React\",\n            \"isRequired\": true\n          }\n        ]\n      }\n    ],\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 20,\n      \"total\": 1\n    }\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -343,14 +760,44 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Backend Engineer Intern\",\n  \"description\": \"Work with Prisma and Node.js on scaling systems.\",\n  \"stipend\": 1500,\n  \"location\": \"HYBRID\",\n  \"applicationDeadline\": \"2026-08-15T12:00:00.000Z\",\n  \"maxApplicants\": 10,\n  \"skills\": [\n    { \"name\": \"Node.js\", \"isRequired\": true },\n    { \"name\": \"SQL\", \"isRequired\": true },\n    { \"name\": \"Docker\", \"isRequired\": false }\n  ]\n}"
+              "raw": "{\n  \"title\": \"Backend Engineer Intern\",\n  \"description\": \"Work with Prisma and Node.js.\",\n  \"stipend\": 1500,\n  \"location\": \"HYBRID\",\n  \"applicationDeadline\": \"2026-08-30T12:00:00.000Z\",\n  \"maxApplicants\": 10,\n  \"skills\": [\n    {\n      \"name\": \"Node.js\",\n      \"isRequired\": true\n    },\n    {\n      \"name\": \"SQL\",\n      \"isRequired\": true\n    }\n  ]\n}"
             },
             "url": {
               "raw": "{{base_url}}/listings",
-              "host": ["{{base_url}}"],
-              "path": ["listings"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Listing Created Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"listing-uuid-789\",\n    \"companyId\": \"company-uuid-123\",\n    \"title\": \"Backend Engineer Intern\",\n    \"stipend\": 1500,\n    \"location\": \"HYBRID\",\n    \"status\": \"DRAFT\",\n    \"skills\": [\n      {\n        \"name\": \"Node.js\",\n        \"isRequired\": true\n      }\n    ]\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Listing",
@@ -368,20 +815,51 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Backend Engineer Intern (Node.js/Prisma)\",\n  \"stipend\": 1800\n}"
+              "raw": "{\n  \"title\": \"Backend Specialist Intern\",\n  \"stipend\": 1700\n}"
             },
             "url": {
               "raw": "{{base_url}}/listings/:id",
-              "host": ["{{base_url}}"],
-              "path": ["listings", ":id"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                ":id"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "listing-uuid-789"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Listing Updated Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"listing-uuid-789\",\n    \"title\": \"Backend Specialist Intern\",\n    \"stipend\": 1700\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Listing Status",
@@ -403,19 +881,51 @@
             },
             "url": {
               "raw": "{{base_url}}/listings/:id/status",
-              "host": ["{{base_url}}"],
-              "path": ["listings", ":id", "status"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                ":id",
+                "status"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "listing-uuid-789"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Listing Status Updated",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"listing-uuid-789\",\n    \"status\": \"ACTIVE\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Get Search / Matching Listings (Student)",
+          "name": "Get Matching Listings",
           "request": {
             "method": "GET",
             "header": [
@@ -425,11 +935,41 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/listings?sortBy=match&location=HYBRID&minStipend=1000",
-              "host": ["{{base_url}}"],
-              "path": ["listings"]
+              "raw": "{{base_url}}/listings?sortBy=match&location=HYBRID",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Listings Sorted by Match Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"listing-uuid-789\",\n      \"title\": \"Senior React Developer Intern\",\n      \"companyName\": \"Seeded Tech Corp\",\n      \"stipend\": 2000,\n      \"location\": \"HYBRID\",\n      \"matchScore\": 93.67,\n      \"skills\": [\n        {\n          \"name\": \"React\",\n          \"isRequired\": true\n        }\n      ]\n    }\n  ],\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 20,\n      \"total\": 1\n    }\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Get Listing By ID",
@@ -443,16 +983,47 @@
             ],
             "url": {
               "raw": "{{base_url}}/listings/:id",
-              "host": ["{{base_url}}"],
-              "path": ["listings", ":id"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                ":id"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "listing-uuid-789"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Listing By ID Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"listing-uuid-789\",\n    \"title\": \"Senior React Developer Intern\",\n    \"companyName\": \"Seeded Tech Corp\",\n    \"stipend\": 2000,\n    \"location\": \"HYBRID\",\n    \"matchScore\": 93.67,\n    \"skills\": [\n      {\n        \"name\": \"React\",\n        \"isRequired\": true\n      }\n    ]\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -460,7 +1031,7 @@
       "name": "Applications",
       "item": [
         {
-          "name": "Apply to Listing (Student)",
+          "name": "Apply to Listing",
           "request": {
             "method": "POST",
             "header": [
@@ -471,19 +1042,51 @@
             ],
             "url": {
               "raw": "{{base_url}}/listings/:id/apply",
-              "host": ["{{base_url}}"],
-              "path": ["listings", ":id", "apply"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                ":id",
+                "apply"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "listing-uuid-789"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Applied Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"application-uuid-456\",\n    \"studentId\": \"student-uuid-123\",\n    \"listingId\": \"listing-uuid-789\",\n    \"status\": \"SUBMITTED\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Get Applicants (Company)",
+          "name": "Get Applicants (Sorted by Match)",
           "request": {
             "method": "GET",
             "header": [
@@ -493,17 +1096,49 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/listings/:id/applicants?page=1&limit=20",
-              "host": ["{{base_url}}"],
-              "path": ["listings", ":id", "applicants"],
+              "raw": "{{base_url}}/listings/:id/applicants",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                ":id",
+                "applicants"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "listing-uuid-789"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Applicants Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"applicants\": [\n      {\n        \"applicationId\": \"application-uuid-456\",\n        \"status\": \"SUBMITTED\",\n        \"student\": {\n          \"name\": \"Alice Smith\",\n          \"college\": \"State University\",\n          \"branch\": \"Computer Science\"\n        },\n        \"matchScore\": 93.67\n      }\n    ],\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 20,\n      \"total\": 1\n    }\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Update Application Status",
@@ -521,23 +1156,55 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"status\": \"UNDER_REVIEW\"\n}"
+              "raw": "{\n  \"status\": \"SHORTLISTED\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/applications/:id/status",
-              "host": ["{{base_url}}"],
-              "path": ["applications", ":id", "status"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                ":id",
+                "status"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "application-uuid-456"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Status Updated Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"application-uuid-456\",\n    \"status\": \"SHORTLISTED\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Withdraw Application (Student)",
+          "name": "Withdraw Application",
           "request": {
             "method": "PATCH",
             "header": [
@@ -548,19 +1215,51 @@
             ],
             "url": {
               "raw": "{{base_url}}/applications/:id/withdraw",
-              "host": ["{{base_url}}"],
-              "path": ["applications", ":id", "withdraw"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                ":id",
+                "withdraw"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "application-uuid-456"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Withdrawn Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"message\": \"Application withdrawn successfully\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
-          "name": "Bulk Update Status (Company)",
+          "name": "Bulk Update Status",
           "request": {
             "method": "PATCH",
             "header": [
@@ -575,14 +1274,45 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"applicationIds\": [\"app-uuid-1\", \"app-uuid-2\"],\n  \"status\": \"SHORTLISTED\"\n}"
+              "raw": "{\n  \"applicationIds\": [\n    \"application-uuid-456\"\n  ],\n  \"status\": \"OFFER_EXTENDED\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/applications/bulk-update",
-              "host": ["{{base_url}}"],
-              "path": ["applications", "bulk-update"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "applications",
+                "bulk-update"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Bulk Update Completed",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"successCount\": 1,\n    \"message\": \"Successfully updated status of 1 applications\"\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -600,11 +1330,41 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/notifications?isRead=false&page=1&limit=10",
-              "host": ["{{base_url}}"],
-              "path": ["notifications"]
+              "raw": "{{base_url}}/notifications",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Notifications Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"notifications\": [\n      {\n        \"id\": \"notify-uuid-999\",\n        \"type\": \"APPLICATION_STATUS_UPDATED\",\n        \"message\": \"Your application for Senior React Developer Intern is now SHORTLISTED\",\n        \"isRead\": false\n      }\n    ],\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 20,\n      \"total\": 1\n    }\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Mark Notification Read",
@@ -618,16 +1378,48 @@
             ],
             "url": {
               "raw": "{{base_url}}/notifications/:id/read",
-              "host": ["{{base_url}}"],
-              "path": ["notifications", ":id", "read"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications",
+                ":id",
+                "read"
+              ],
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "notify-uuid-999"
                 }
               ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Marked Read Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"notify-uuid-999\",\n    \"isRead\": true\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         },
         {
           "name": "Mark All Notifications Read",
@@ -641,10 +1433,41 @@
             ],
             "url": {
               "raw": "{{base_url}}/notifications/bulk-read",
-              "host": ["{{base_url}}"],
-              "path": ["notifications", "bulk-read"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications",
+                "bulk-read"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Marked All Read Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"count\": 1\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     },
@@ -652,7 +1475,7 @@
       "name": "Auditing",
       "item": [
         {
-          "name": "Get Audit Trail (Admin)",
+          "name": "Get Audit Trail",
           "request": {
             "method": "GET",
             "header": [
@@ -663,15 +1486,44 @@
             ],
             "url": {
               "raw": "{{base_url}}/audit?page=1&limit=50",
-              "host": ["{{base_url}}"],
-              "path": ["audit"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "audit"
+              ]
             }
-          }
+          },
+          "response": [
+            {
+              "name": "Get Audit Logs Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}",
+                  "host": [
+                    "{{base_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"logs\": [\n      {\n        \"id\": \"audit-uuid-111\",\n        \"actorId\": \"student-uuid-123\",\n        \"actorType\": \"STUDENT\",\n        \"action\": \"SUBMIT_APPLICATION\",\n        \"resourceType\": \"APPLICATION\",\n        \"resourceId\": \"application-uuid-456\",\n        \"createdAt\": \"2026-07-18T12:10:00.000Z\"\n      }\n    ],\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 1\n    }\n  },\n  \"error\": null,\n  \"meta\": {\n    \"timestamp\": \"2026-07-18T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
         }
       ]
     }
   ],
-  "event": [],
   "variable": [
     {
       "key": "base_url",
