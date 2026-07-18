@@ -16,8 +16,9 @@ router.get("/", async (req, res, next) => {
 
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 50;
+    const { actorType, startDate, endDate } = req.query;
 
-    const { logs, pagination } = await auditService.getAuditLogs(page, limit);
+    const { logs, pagination } = await auditService.getAuditLogs(page, limit, { actorType, startDate, endDate });
     res.status(200).json(successResponse(logs, pagination));
   } catch (err) {
     next(err);

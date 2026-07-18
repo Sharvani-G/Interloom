@@ -48,6 +48,10 @@ async function apply(studentId, listingId) {
     throw new NotFoundError("Listing not found", "LISTING_NOT_FOUND");
   }
 
+  if (listing.status === "AUTO_CLOSED" || listing.applicantCount >= listing.maxApplicants) {
+    throw new BadRequestError("Application cap reached for this listing", "LISTING_FULL");
+  }
+
   if (listing.status !== "ACTIVE") {
     throw new BadRequestError("Listing is not active", "LISTING_NOT_ACTIVE");
   }

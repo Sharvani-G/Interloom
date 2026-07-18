@@ -177,12 +177,12 @@ async function updateListingStatus(companyId, listingId, newStatus) {
   const currentStatus = listing.status;
 
   // Strict transitions validation:
-  // DRAFT -> ACTIVE or CLOSED
+  // DRAFT -> ACTIVE
   // ACTIVE -> CLOSED
   // AUTO_CLOSED -> CLOSED
   // CLOSED is terminal
   let isValid = false;
-  if (currentStatus === "DRAFT" && (newStatus === "ACTIVE" || newStatus === "CLOSED")) {
+  if (currentStatus === "DRAFT" && newStatus === "ACTIVE") {
     isValid = true;
   } else if (currentStatus === "ACTIVE" && newStatus === "CLOSED") {
     isValid = true;
@@ -193,7 +193,7 @@ async function updateListingStatus(companyId, listingId, newStatus) {
   if (!isValid) {
     throw new BadRequestError(
       `Invalid listing status transition from ${currentStatus} to ${newStatus}`,
-      "INVALID_STATUS_TRANSITION"
+      "STATUS_TRANSITION_INVALID"
     );
   }
 

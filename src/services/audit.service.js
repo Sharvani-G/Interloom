@@ -18,10 +18,28 @@ async function logEvent({ actorId, actorType, action, resourceType, resourceId, 
   }
 }
 
-async function getAuditLogs(page = 1, limit = 50) {
+async function getAuditLogs(page = 1, limit = 50, filters = {}) {
+  const { actorType, startDate, endDate } = filters;
+  const where = {};
+
+  if (actorType) {
+    where.actorType = actorType;
+  }
+
+  if (startDate || endDate) {
+    where.createdAt = {};
+    if (startDate) {
+      where.createdAt.gte = new Date(startDate);
+    }
+    if (endDate) {
+      where.createdAt.lte = new Date(endDate);
+    }
+  }
+
   const skip = (page - 1) * limit;
-  const total = await prisma.auditLog.count();
+  const total = await prisma.auditLog.count({ where });
   const logs = await prisma.auditLog.findMany({
+    where,
     orderBy: { createdAt: "desc" },
     skip,
     take: limit
