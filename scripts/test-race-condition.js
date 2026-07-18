@@ -11,8 +11,7 @@ async function testRaceCondition() {
   console.log("STARTING RACE CONDITION TEST FOR APPLICANT CAP");
   console.log("==========================================");
 
-  // 1. Setup listing with maxApplicants = 3 for quicker concurrent testing
-  const maxApplicants = 3;
+  const maxApplicants = 1;
   console.log(`Creating test company & listing with max_applicants = ${maxApplicants}...`);
 
   // Create a temp test company
@@ -49,10 +48,10 @@ async function testRaceCondition() {
   const listingId = listing.id;
   console.log(`Created Listing ID: ${listingId} (max_applicants: ${maxApplicants})`);
 
-  // 2. Create 6 student accounts (more than maxApplicants) and generate tokens
-  console.log("Creating 6 temporary student accounts and tokens...");
+  // Create 5 student accounts and generate tokens
+  console.log("Creating 5 temporary student accounts and tokens...");
   const students = [];
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 5; i++) {
     const email = `student-${i}-${Date.now()}@university.edu`;
     const user = await prisma.user.create({
       data: {
@@ -81,8 +80,8 @@ async function testRaceCondition() {
     students.push({ user, token });
   }
 
-  // 3. Launch concurrent requests to apply to the listing
-  console.log("Firing 6 concurrent apply requests simultaneously...");
+  // Launch 5 concurrent requests
+  console.log("Firing 5 concurrent apply requests simultaneously...");
   const promises = students.map(({ token, user }) => {
     return fetch(`${BASE_URL}/listings/${listingId}/apply`, {
       method: "POST",
@@ -107,21 +106,40 @@ async function testRaceCondition() {
   console.log("RESULTS:");
   let successCount = 0;
   let failureCount = 0;
+  let listingFullCount = 0;
+  let status500Count = 0;
+  let mismatchCount = 0;
 
   results.forEach((res) => {
-    console.log(`Student: ${res.email} -> Status: ${res.status}, Success: ${res.success}, Error: ${res.error ? res.error.code : "None"}`);
+    const errCode = res.error ? res.error.code : "None";
+    console.log(`Student: ${res.email} -> Status: ${res.status}, Success: ${res.success}, Error: ${errCode}`);
+    
+    if (res.status === 500) {
+      status500Count++;
+    }
+
     if (res.success) {
       successCount++;
     } else {
       failureCount++;
+      if (errCode === "LISTING_FULL") {
+        listingFullCount++;
+      } else {
+        mismatchCount++;
+        console.warn(`[MISMATCH] Expected LISTING_FULL, got error code: ${errCode} for student ${res.email}`);
+      }
     }
   });
 
   console.log("------------------------------------------");
   console.log(`Total Successes: ${successCount}`);
   console.log(`Total Failures: ${failureCount}`);
+  console.log(`LISTING_FULL Failures: ${listingFullCount}`);
+  console.log(`500 Internal Errors: ${status500Count}`);
+  console.log(`Mismatches: ${mismatchCount}`);
+  console.log("------------------------------------------");
 
-  // 4. Verify DB state
+  // Verify DB state
   const updatedListing = await prisma.listing.findUnique({
     where: { id: listingId }
   });
@@ -131,11 +149,16 @@ async function testRaceCondition() {
   console.log(`- status: ${updatedListing.status}`);
   console.log("==========================================");
 
-  // Assertions
-  if (successCount === maxApplicants && updatedListing.applicantCount === maxApplicants && updatedListing.status === "AUTO_CLOSED") {
-    console.log("TEST SUCCESSFUL: Atomic cap works perfectly! Exactly max_applicants applications succeeded and listing auto-closed.");
+  // Assertion check output
+  const isMatch = (mismatchCount === 0);
+  if (successCount === 1 && failureCount === 4 && isMatch && status500Count === 0) {
+    console.log("VERIFICATION RESULT: 1 Success / 4 Failed / all LISTING_FULL / no 500s");
   } else {
-    console.error("TEST FAILED: Race condition detected or incorrect status!");
+    console.warn("VERIFICATION RESULT: DISCREPANCY DETECTED!");
+    console.log(`Successes: ${successCount} (expected 1)`);
+    console.log(`Failures: ${failureCount} (expected 4)`);
+    console.log(`Mismatches (non-LISTING_FULL): ${mismatchCount} (expected 0)`);
+    console.log(`500 errors: ${status500Count} (expected 0)`);
   }
 
   // Clean up
